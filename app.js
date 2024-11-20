@@ -327,6 +327,8 @@
     })
       
 
-//Inicializando Servidor!
-    app.listen(3000)
-    say(chalk.blue("Server Rodando na porta 3000!"))
+//Inicializando
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
