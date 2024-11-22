@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -116,6 +118,12 @@ p {
     transition: .5s;
 }
 
+.slider .list .item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .slider .list .item img {
     width: 100%;
     height: 100%;
@@ -138,8 +146,11 @@ p {
     top: 20%;
     width: 500px;
     max-width: 80%;
-    z-index: 1;
+    z-index: 10; /* Garante que o conteúdo esteja acima do vídeo */
+    color: white; /* Adiciona uma cor para o texto se necessário */
+    font-family: 'Poppins', sans-serif; /* Garante a legibilidade */
 }
+
 
 .slider .list .item .content p:nth-child(1) {
     text-transform: uppercase;
@@ -871,4 +882,96 @@ select.input {
     text-decoration: none;
     color: #6a5acd;
     font-size:9px;
+}
+button{
+    outline: none;
+}
+/* Aplique a largura completa aos inputs com a classe .addmoni */
+.addmoni {
+    width: 100%;             /* Garante que o input ocupe 100% da largura disponível */
+    max-width: 100%;         /* Impede que ultrapasse 100% da largura do contêiner */
+    box-sizing: border-box;  /* Inclui o padding e a borda no cálculo da largura total */
+    height: 45px;            /* Define uma altura comum para todos os inputs */
+    background-color: rgba(255, 255, 255, 0.05);  /* Cor de fundo translúcida */
+    border: 1px solid rgba(255, 255, 255, 0.1);    /* Borda sutil */
+    border-radius: 12px;     /* Bordas arredondadas */
+    padding: 0 1rem;         /* Padding interno */
+    color: #fff;             /* Cor do texto */
+    font-size: 1rem;         /* Tamanho da fonte */
+    transition: all 0.3s ease; /* Transição suave */
+    margin-bottom: 1rem;     /* Espaço abaixo dos inputs */
+}
+
+/* Aplica um estilo específico quando o input com a classe .addmoni é focado */
+.addmoni:focus {
+    border-color: #6a5acd;          /* Cor da borda ao focar */
+    background-color: rgba(106, 90, 205, 0.1); /* Fundo ligeiramente alterado */
+    outline: none;                  /* Remove o contorno padrão do navegador */
+    box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2); /* Sombra sutil para destaque */
+}
+
+/* Estilo para o botão de "Adicionar" */
+.adicionar {
+    width: 100%;                    /* Largura completa para o botão */
+    height: 50px;                   /* Altura fixa para o botão */
+    background: linear-gradient(135deg, #6a5acd, #483d8b); /* Gradiente de fundo */
+    border: none;                   /* Sem borda */
+    border-radius: 12px;            /* Bordas arredondadas */
+    color: white;                   /* Cor do texto do botão */
+    font-weight: 600;                /* Peso da fonte */
+    font-size: 1rem;                /* Tamanho da fonte */
+    cursor: pointer;                /* Indicador de clique */
+    transition: all 0.3s ease;      /* Transição suave */
+    margin-top: 1rem;               /* Margem superior */
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3); /* Sombra suave */
+}
+
+/* Estilos adicionais para textareas com a classe .desc */
+textarea.desc {
+    width: 100%;                    /* Largura total */
+    height: 120px;                  /* Altura específica para textareas */
+    background-color: rgba(255, 255, 255, 0.05);  /* Fundo translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.1);    /* Borda sutil */
+    border-radius: 12px;           /* Bordas arredondadas */
+    padding: 1rem;                 /* Padding interno */
+    color: #fff;                   /* Cor do texto */
+    font-size: 1rem;               /* Tamanho da fonte */
+    transition: all 0.3s ease;     /* Transição suave */
+    margin-bottom: 1rem;           /* Espaço inferior */
+}
+
+/* Aplica o foco nas textareas com a classe .desc */
+textarea.desc:focus {
+    border-color: #6a5acd;             /* Cor da borda ao focar */
+    background-color: rgba(106, 90, 205, 0.1); /* Fundo alterado */
+    outline: none;                     /* Remove o contorno padrão */
+    box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2); /* Sombra suave para foco */
+}
+
+/* Estilo para elementos select com a classe .addmoni */
+select.addmoni {
+    width: 100%;                      /* Largura total para o select */
+    height: 45px;                     /* Altura consistente */
+    background-color: rgba(255, 255, 255, 0.05);  /* Fundo translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.1);    /* Borda sutil */
+    border-radius: 12px;              /* Bordas arredondadas */
+    padding: 0 1rem;                  /* Padding interno */
+    color: #fff;                      /* Cor do texto */
+    font-size: 1rem;                  /* Tamanho da fonte */
+    transition: all 0.3s ease;        /* Transição suave */
+    margin-bottom: 1rem;              /* Espaço inferior */
+    appearance: none;                 /* Remover estilo padrão do select */
+    cursor: pointer;                 /* Indicador de clique */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); /* Ícone de seta para baixo */
+    background-repeat: no-repeat;     /* Não repetir o ícone */
+    background-position: right 1rem center; /* Posicionar o ícone à direita */
+    background-size: 1em;             /* Definir o tamanho do ícone */
+}
+
+/* Aplica o foco nos selects com a classe .addmoni */
+select.addmoni:focus {
+    border-color: #6a5acd;                /* Cor da borda ao focar */
+    background-color: rgba(106, 90, 205, 0.1); /* Fundo ligeiramente alterado */
+    outline: none;                        /* Remove o contorno padrão */
+    box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2); /* Sombra suave */
 }

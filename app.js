@@ -5,6 +5,13 @@
     const handlebars = require('express-handlebars')//Usado para definir templates e passar informações
     const chalk = require('chalk')
     const say =console.log
+    const readline = require('readline');
+    // Cria uma interface de leitura no terminal
+    const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+    });
+
 //Banco de dados
     const tutortime = require('./models/dados') 
     const { Sequelize } = require('sequelize')
@@ -19,20 +26,30 @@
 //-Config⚙️
     //Template Engine
         app.engine('handlebars', handlebars.engine({
-            defaultLayout: 'main',  // Layout padrão
+            defaultLayout: 'main', 
             runtimeOptions: {
                 allowedProtoProperties: true,
                 allowProtoPropertiesByDefault: true
             },
             helpers: { 
-                ifCond: function(v1, v2, options) { //Definir IF
+                
+                ifCond: function(v1, v2, options) {
                     if (v1 === v2) {
                         return options.fn(this);  
                     }
                     return options.inverse(this);  
-                }
+                },
+        
+            
+                equals: function(v1, v2, options) {
+                    if (v1 == v2) {  
+                        return options.fn(this);
+                    }
+                    return options.inverse(this)
+                },
             }
-        }));
+        }))
+        
 
         app.set('view engine','handlebars')//Definindo engine como HANDLEBARS
 
@@ -47,28 +64,22 @@
 //Rotas
     
     //          HOME
-        app.get("/home",function(req,res){
-            say(chalk.bgCyan("Entrou em Home"))
+        app.get("/home", async function(req, res) {
+            say(chalk.bgCyan("Entrou em Home"));
             say(chalk.black("---------------"))
-            let primeiro =""
-
-            async function one() {
-                 primeiro = await Existente.findOne({order:[['id','ASC']]})
+            let primeiro = await Existente.findOne({ order: [['id', 'ASC']] });
+            
+            if (!primeiro) {
+                primeiro = {
+                    nome: "Sem Monitorias",
+                    imagemUrl: '/semonitoria.jpg',
+                    videoUrl: "/semmonitoria.mp4"
+                };
             }
-            one()
-
-            Existente.findAll({order:[['id','ASC']],offset:1}).then(function(existente){
-                if(primeiro===null){
-                    primeiro = 
-                        {
-                            nome:"Sem Monitorias",
-                            imagemUrl:'https://images.pexels.com/photos/949587/pexels-photo-949587.jpeg?auto=compress&cs=tinysrgb&w=600'
-                        }
-                }
-                res.render('src/home/index',{Existente:existente,primeiro:primeiro})
-            })
-
-        })
+        
+            let existente = await Existente.findAll({ order: [['id', 'ASC']], offset: 1 });
+            res.render('src/home/index', { Existente: existente, primeiro: primeiro });
+        });
     
     //          ABOUT
         app.get("/about",function(req,res){
@@ -270,28 +281,37 @@
             });
 
     //Deletando Monitorias
-        app.get('/deletar/:id',function(req,res){
-            
-            async function verificar() {
-                const monitoriadele = await Monitorias.findOne({ where: { id: req.params.id } })
-                say(chalk.bgCyan("Deletou Monitoria"))
-                say(chalk.black("---------------"))
-                if(monitoriadele!=null){
-                    const id_mat_monitoria = monitoriadele.materiaId
-                    const materia = await Materia.findOne({where:{id:id_mat_monitoria}})
-                    const id_materia = materia.id
-                    const monitorias = await Monitorias.findAll({where:{materiaId:id_materia}})
-                    if (monitorias.length===1) {
-                        Existente.destroy({where:{nome:materia.nome}})
-                    }
-                }
-                
+    app.get('/deletar/:id', async function(req, res) {
+        try {
+            const monitoriadele = await Monitorias.findOne({ where: { id: req.params.id } });
+            if (!monitoriadele) {
+                return res.redirect('/manage/True');
             }
-          
-            Monitorias.destroy({where:{'id':req.params.id}})
-            verificar()
-            res.redirect('/manage/True')
-        })
+    
+            await Monitorias.destroy({ where: { id: req.params.id } });
+    
+            say(chalk.bgCyan("Deletou Monitoria"));
+            say(chalk.black("---------------"));
+    
+            const id_mat_monitoria = monitoriadele.materiaId;
+            const materia = await Materia.findOne({ where: { id: id_mat_monitoria } });
+    
+            if (materia) {
+                const monitorias = await Monitorias.findAll({ where: { materiaId: id_mat_monitoria } });
+    
+                if (monitorias.length === 0) {
+                    await Existente.destroy({ where: { nome: materia.nome } });
+                    say(chalk.bgCyan(`Deletou matéria ${materia.nome} `));
+                }
+            }
+    
+            res.redirect('/manage/True');
+        } catch (error) {
+            console.error("Erro ao excluir monitoria:", error);
+            res.status(500).send('Erro ao excluir monitoria');
+        }
+    });
+    
     //Deletando Matérias
         app.get('/deletarmat/:id', async function(req, res) {
             try {
@@ -313,7 +333,7 @@
                     where: { nome: nomemat.nome }
                 })
                 say(chalk.bgCyan("Deletou Materia : "+nomemat.nome))
-                say(chalk.black("---------------"))
+                await say(chalk.black("---------------"))
                 res.redirect('/adicionar')
                 } catch (error) {
                 console.error('Erro ao excluir matéria:', error)
@@ -326,9 +346,29 @@
         res.render('src/erro')
     })
       
-
 //Inicializando
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+function inicializar(){
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+
+        say('')
+        say(chalk.cyan(`  -Server is running on port `)+chalk.magenta(port));
+        say(chalk.cyan(`  -http://localhost:${port}/home`))
+        say('')
+        say(chalk.gray(`Options : \nP - Parar servidor\nH - Help\nL - Link
+            `))
+        rl.on('line', (comando) => {
+            comando = comando.trim().toUpperCase()
+            if (comando === 'H') {
+                say(chalk.magenta("TRABALHANDO NISSO"))
+               }
+            if (comando === 'P') {
+                say(chalk.magenta("CLIQUE Ctrl+C"))
+            }
+            if (comando === 'L') {
+                say(chalk.cyan(`Link : http://localhost:${port}/home`))
+            }
+        })
+})}
+
+inicializar()

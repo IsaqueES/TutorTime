@@ -30,7 +30,7 @@
             <h2>Adicionar Monitoria</h2>
             <form id="meuFormulario" action="/add" method="POST">
                 <!-- Seleção de disciplina -->
-                <select name="materiaREQ" class="input" required>
+                <select name="materiaREQ" class="addmoni" required>
                     <option value="" disabled selected>Selecione a disciplina</option>
                     {{#each Materia}}
                         <option value="{{id}}">{{nome}}</option>
@@ -41,12 +41,12 @@
                 </div>
 
                 <!-- Campos de texto -->
-                <input type="text" name="monitorREQ" class="input" placeholder="Monitor" required>
-                <input type="text" name="professorREQ" class="input" placeholder="Professor" required>
-                <input type="text" name="localREQ" class="input" placeholder="Local ou Link" required>
+                <input type="text" name="monitorREQ" class="addmoni" placeholder="Monitor" required>
+                <input type="text" name="professorREQ" class="addmoni" placeholder="Professor" required>
+                <input type="text" name="localREQ" class="addmoni" placeholder="Local ou Link" required>
 
                 <!-- Seleção de dia -->
-                <select name="diaREQ" class="input" required>
+                <select name="diaREQ" class="addmoni" required>
                     <option value="" disabled selected>Selecione o dia</option>
                     <option value="Segunda">Segunda-Feira</option>
                     <option value="Terça-Feira">Terça-Feira</option>
@@ -56,7 +56,7 @@
                 </select>
 
                 <!-- Campo de horário -->
-                <input type="time" class="input" name="horarioREQ" required>
+                <input type="time" class="addmoni" name="horarioREQ" required>
 
                 <!-- Botão de submissão -->
                 <button type="submit" class="adicionar">Adicionar</button>

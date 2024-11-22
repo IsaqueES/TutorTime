@@ -210,6 +210,9 @@
             },
             imagemUrl:{
                 type:DataTypes.STRING
+            },
+            videoUrl:{
+                type:DataTypes.STRING
             }
           })
         if (Existente) {

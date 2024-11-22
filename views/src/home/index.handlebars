@@ -28,7 +28,16 @@
         <!-- list Items -->
         <div class="list">
             <div class="item active">
-                <img src={{primeiro.imagemUrl}}>
+                {{#equals primeiro.videoUrl "/semmonitoria.mp4"}}
+                    <video width="100%" controls autoplay loop muted>
+                        <source src="{{primeiro.videoUrl}}" type="video/mp4">
+                    </video>
+                    {{else}}
+                    <img src="{{primeiro.imagemUrl}}" alt="">
+                    {{/equals}}
+
+
+
                 <div class="content">
                     
                     <p>Encontre a sua monitoria</p>
