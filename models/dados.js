@@ -4,7 +4,8 @@
         host:'localhost',
         dialect:'mysql',
         query:{raw:true},
-        logging:false
+        logging:false,
+        port:process.env.DB_PORT || 3306,
     })
     let contador =0
 //Chalk

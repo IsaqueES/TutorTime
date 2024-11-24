@@ -6,7 +6,7 @@
     const chalk = require('chalk')
     const say =console.log
     const readline = require('readline');
-    // Cria uma interface de leitura no terminal
+//Cria uma interface de leitura no terminal
     const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -23,7 +23,7 @@
         const Existente = tutortime.Existente
         let c = 1
 
-//-Config⚙️
+//Config⚙️
     //Template Engine
         app.engine('handlebars', handlebars.engine({
             defaultLayout: 'main', 
@@ -62,7 +62,6 @@
         app.use(bodyParser.json())
 
 //Rotas
-    
     //          HOME
         app.get("/home", async function(req, res) {
             say(chalk.bgCyan("Entrou em Home"));
@@ -346,6 +345,7 @@
         res.render('src/erro')
     })
       
+module.exports=app
 //Inicializando
 function inicializar(){
     const port = process.env.PORT || 3000;
