@@ -1,12 +1,17 @@
 //Database
     const { Sequelize, DataTypes } = require('sequelize');
     const sequelize = new Sequelize('tutortime','root','123456',{
-        host:'localhost',
-        dialect:'mysql',
+        host:process.env.NEON_HOST,
+        dialect:'postgress',
+        dialectOptions: {
+            ssl:{
+                require:true,
+                rejectunauthorized:false,
+            },
         query:{raw:true},
         logging:false,
-        port:process.env.DB_PORT || 3306,
-    })
+        port:process.env.DB_PORT || 5432,
+    }})
     let contador =0
 //Chalk
     const chalk = require('chalk')
