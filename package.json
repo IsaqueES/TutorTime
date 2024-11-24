@@ -1,20 +1,12 @@
 {
   "name": "tutortime",
   "version": "1.0.0",
-  "description": "<h1 align=\"center\">TutorTime 🎓</h1>",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "build": "echo 'No Build step'",
-    "vercel-build": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.3",
-    "chalk": "^4.1.2",
     "express": "^4.21.1",
     "express-handlebars": "^8.0.1",
     "handlebars": "^4.7.8",
