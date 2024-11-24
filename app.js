@@ -13,7 +13,7 @@
     });
 
 //Banco de dados
-    const tutortime = require('../models/dados') 
+    const tutortime = require('./models/dados.js') 
     const { Sequelize } = require('sequelize')
     //Tabelas    
         const Monitorias = tutortime.Monitoria

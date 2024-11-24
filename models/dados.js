@@ -1,7 +1,8 @@
 //Database
     const { Sequelize, DataTypes } = require('sequelize');
-    const sequelize = new Sequelize('postgres://neondb_owner:LxqKcwVR95jY@ep-divine-cherry-a5b1h77k-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require',{
+    const sequelize = new Sequelize('postgresql://tutortimedb_owner:aCklVi10tTsv@ep-frosty-mode-a5j3mrx4.us-east-2.aws.neon.tech/tutortimedb?sslmode=require',{
         dialect:'postgress',
+        logging:false,
         dialectOptions: {
             ssl:{
                 require:true,
