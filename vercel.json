@@ -12,5 +12,5 @@
             "dest": "app.js"
         }
     ],
-    "installCommand": "npm install pg"
+    "installCommand": "npm install"
 }
